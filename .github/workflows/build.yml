@@ -20,19 +20,10 @@ jobs:
         with:
           name: build_log
           path: build.log
-  wrapup:
-    name: Wrapping up Job
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Build Log
-        uses: actions/download-artifact@v4
+      - name: Call ACR
+        if: ${{ failure() && steps.build.outcome == 'failure'}}
+        uses: ./.github/workflows/acr.yml
         with:
-          name: build_log
-      - shell: bash
-        run: |
-          value=`cat build.log`
-          echo The result is $value
+          filename: build_log
 
-        
     
