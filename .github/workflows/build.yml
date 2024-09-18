@@ -20,12 +20,19 @@ jobs:
         with:
           name: build_log
           path: build.log
-      - name: Catch Failure
-        if: ${{ failure() && steps.build.outcome == 'failure'}}
-        env:
-          DESCRIPTION: ${{ join(steps.build.outputs.*, '\n')}}
+  wrapup:
+    name: Wrapping up Job
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Build Log
+        uses: actions/download-artifact@v4
+        with:
+          name: build_log
+      - shell: bash
         run: |
-          echo 'The triggering workflow failed': $DESCRIPTION
+          value=`cat build.log`
+          echo The result is $value
 
         
     
