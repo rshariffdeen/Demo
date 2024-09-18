@@ -1,0 +1,10 @@
+name: AnalyzeCode
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  call-build:
+    uses: rshariffdeen/Demo/.github/workflows/build.yml

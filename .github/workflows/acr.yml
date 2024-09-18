@@ -1,0 +1,60 @@
+name: AutoCodeRover
+on:
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Install sonar-scanner and build-wrapper
+        uses: SonarSource/sonarcloud-github-c-cpp@v3
+      - name: Run build-wrapper
+        id: sonarbuild
+        run: |
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} gcc -o test test.c
+      - name: Catch Failure
+        if: ${{ failure() && steps.sonarbuild.outcome == 'failure'}}
+        env:
+          DESCRIPTION: ${{ join(steps.sonarbuild.outputs.*, '\n')}}
+        run: |
+          echo 'The triggering workflow failed': $DESCRIPTION
+      - name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner --define sonar.cfamily.compile-commands="${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"
+
+  build:
+    name: Build and analyze
+    needs: sonar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Compile Program
+        id: build
+        run: |
+          gcc -o test test.c
+      - name: Catch Failure
+        if: ${{ failure() && steps.build.outcome == 'failure'}}
+        env:
+          DESCRIPTION: ${{ join(steps.build.outputs.*, '\n')}}
+        run: |
+          echo 'The triggering workflow failed': $DESCRIPTION
+
+        
+    
