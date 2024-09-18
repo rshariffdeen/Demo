@@ -13,7 +13,12 @@ jobs:
       - name: Compile Program
         id: build
         run: |
-          gcc -o test test.c
+          gcc -o test test.c > build.log 2>&1
+      - name: Upload Build Log
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_log
+          path: build.log
       - name: Catch Failure
         if: ${{ failure() && steps.build.outcome == 'failure'}}
         env:
