@@ -17,6 +17,6 @@ jobs:
           name: ${{ inputs.filename }}
       - shell: bash
         run: |
-          value=`cat ${{ inputs.username }}`
+          value=`cat ${{ inputs.filename }}`
           echo The result is $value
 
