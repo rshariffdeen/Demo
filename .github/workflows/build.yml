@@ -14,16 +14,15 @@ jobs:
         id: build
         run: |
           gcc -o test test.c > build.log 2>&1
+        continue-on-error: true
       - name: Upload Build Log
         if: ${{ failure() && steps.build.outcome == 'failure'}}
         uses: actions/upload-artifact@v4
         with:
           name: build_log
           path: build.log
-      - name: Call ACR
-        if: ${{ failure() && steps.build.outcome == 'failure'}}
-        uses: ./.github/workflows/acr.yml
-        with:
-          filename: build_log
-
-    
+  repair:
+    if: ${{ failure() && jobs.build.build.outcome == 'failure'}}
+    uses: ./.github/workflows/acr.yml
+    with:
+        filename: build_log
