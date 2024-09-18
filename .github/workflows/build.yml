@@ -22,7 +22,7 @@ jobs:
           name: build_log
           path: build.log
   repair:
-    if: ${{ failure() && jobs.build.build.outcome == 'failure'}}
+    if: ${{ jobs.build.build.outcome == 'failure'}}
     uses: ./.github/workflows/acr.yml
     with:
         filename: build_log
