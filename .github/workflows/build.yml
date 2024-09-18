@@ -14,7 +14,6 @@ jobs:
         id: build
         run: |
           gcc -o test test.c > build.log 2>&1
-        continue-on-error: true
       - name: Upload Build Log
         if: ${{ failure() && steps.build.outcome == 'failure'}}
         uses: actions/upload-artifact@v4
