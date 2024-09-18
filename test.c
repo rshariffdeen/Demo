@@ -1,11 +1,17 @@
-//
-// Created by rshariffdeen on 18/9/24.
-//
+#include <stdio.h>
 
-#include<stdio.h>
+void bad() {
+    int x = 56;
+    int n = 10;
+    int y = 5;
+    int arr[n];
+    arr[1] = 2;
+    arr[0] = 3;
+    printf("%d %d %d", arr[0], arr[1], arr[2]);
+    int val = 0;
+    val = arr[x+y+5];
+}
 
-void main(){
-
-    printf("Test\n");
-    return;
+int main() {
+    bad();
 }
