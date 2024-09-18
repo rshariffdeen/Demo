@@ -1,13 +1,7 @@
 name: Compile
 on:
   workflow_call:
-    inputs:
-      config-path:
-        required: true
-        type: string
-    secrets:
-      token:
-        required: true
+
 jobs:
   build:
     name: Build and analyze
