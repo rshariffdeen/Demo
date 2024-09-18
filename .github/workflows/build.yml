@@ -22,6 +22,7 @@ jobs:
           name: build_log
           path: build.log
   repair:
+    needs: build
     if: ${{ jobs.build.build.outcome == 'failure'}}
     uses: ./.github/workflows/acr.yml
     with:
