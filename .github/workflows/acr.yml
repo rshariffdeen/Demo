@@ -2,8 +2,12 @@ name: AutoCodeRover
 on:
   workflow_call:
     inputs:
+      artifact:
+        description: 'artifact name to download'
+        required: true
+        type: string
       filename:
-        description: 'A filename to the issue description'
+        description: 'filename to the issue description'
         required: true
         type: string
 jobs:
@@ -14,7 +18,7 @@ jobs:
       - name: Download Issue Description
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.filename }}
+          name: ${{ inputs.artifact }}
       - shell: bash
         run: |
           value=`cat ${{ inputs.filename }}`

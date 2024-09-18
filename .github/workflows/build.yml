@@ -25,4 +25,5 @@ jobs:
     if: failure()
     uses: ./.github/workflows/acr.yml
     with:
-        filename: build_log
+        artifact: build_log
+        filename: build.log
