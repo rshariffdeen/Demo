@@ -9,9 +9,9 @@ void bad() {
     arr[0] = 3;
     printf("%d %d %d", arr[0], arr[1], arr[2]);
     int val = 0;
-    val = arr[x+y+5];
+    val = arr[0]; // or any valid index within the bounds of the array
     printf("testing\n");
-    return
+    return val;
 }
 
 int main() {
