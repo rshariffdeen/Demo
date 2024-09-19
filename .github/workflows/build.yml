@@ -1,39 +1,29 @@
-name: SonarCloud
+name: Compile
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_call:
+
 jobs:
-  sonar:
-    runs-on: ubuntu-latest
-    env:
-      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Install sonar-scanner and build-wrapper
-        uses: SonarSource/sonarcloud-github-c-cpp@v3
-      - name: Run build-wrapper
-        run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} gcc -o test test.c
-      - name: Run sonar-scanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner --define sonar.cfamily.compile-commands="${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"
-
   build:
     name: Build and analyze
-    needs: sonar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - run: |
-          gcc -o test test.c
+      - name: Compile Program
+        id: build
+        run: |
+          gcc -o test test.c > build.log 2>&1
+      - name: Upload Build Log
+        if: ${{ failure() && steps.build.outcome == 'failure'}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_log
+          path: build.log
+  repair:
+    needs: build
+    if: failure()
+    uses: ./.github/workflows/acr.yml
+    with:
+        artifact: build_log
+        filename: build.log

@@ -1,0 +1,26 @@
+name: AutoCodeRover
+on:
+  workflow_call:
+    inputs:
+      artifact:
+        description: 'artifact name to download'
+        required: true
+        type: string
+      filename:
+        description: 'filename to the issue description'
+        required: true
+        type: string
+jobs:
+  get_issue:
+    name: Load Issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Issue Description
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact }}
+      - shell: bash
+        run: |
+          value=`cat ${{ inputs.filename }}`
+          echo The result is $value
+
