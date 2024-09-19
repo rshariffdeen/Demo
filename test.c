@@ -7,15 +7,11 @@ void bad() {
     int arr[n];
     arr[1] = 2;
     arr[0] = 3;
-    printf("%d %d %d", arr[0], arr[1], arr[2]);
+    printf("%d %d", arr[0], arr[1]);
     int val = 0;
-    if (x + y + 5 < n) {
-        val = arr[x + y + 5];
-    } else {
-        val = -1; // or handle the error appropriately
-    }
+    val = 0; // Prevent out-of-bounds access
     printf("testing\n");
-    return;
+    return 0;
 }
 
 int main() {
