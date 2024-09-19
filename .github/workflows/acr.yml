@@ -23,4 +23,4 @@ jobs:
         run: |
           value=`cat ${{ inputs.filename }}`
           echo The result is $value
-          curl --header "acr-auth-token: sk-63b153fcc687243d0fd855720bd22295-2c720bf1e1db7a0a04ac9867e95074cc" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’", "type": "bug fix" , "branch": "${{ vars.GITHUB_REF }}", "commit": "${{ vars.GITHUB_REF }}" }' -X POST https://uat.autocoderover.dev/ci/github/run
+          curl --header "acr-auth-token: sk-63b153fcc687243d0fd855720bd22295-2c720bf1e1db7a0a04ac9867e95074cc" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’", "type": "bug fix" , "branch": "${{ github.ref }}", "commit": "${{ github.ref }}" }' -X POST https://uat.autocoderover.dev/ci/github/run
