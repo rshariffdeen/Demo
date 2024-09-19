@@ -30,4 +30,4 @@ jobs:
         run: |
           value=`cat ${{ inputs.filename }}`
           echo The result is $value
-          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": $DESCRIPTION, "type": "bug fix" , "branch": "$GITHUB_REF", "commit": "${{ github.ref }}" }' -X POST $ACR_HOST
+          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": $DESCRIPTION, "type": "bug fix" , "branch": "${{ github.ref }}", "commit": "${{ github.ref }}" }' -X POST $ACR_HOST
