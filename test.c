@@ -16,4 +16,6 @@ void bad() {
 
 int main() {
     bad();
+
 }
+
