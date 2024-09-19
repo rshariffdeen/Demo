@@ -1,13 +1,18 @@
 diff --git a/test.c b/test.c
-index 5b407a0..62c777c 100644
+index 5b407a0..4cd16a6 100644
 --- a/test.c
 +++ b/test.c
-@@ -9,9 +9,9 @@ void bad() {
-     arr[0] = 3;
-     printf("%d %d %d", arr[0], arr[1], arr[2]);
+@@ -1,6 +1,6 @@
+ #include <stdio.h>
+ 
+-void bad() {
++int bad() {
+     int x = 56;
+     int n = 10;
+     int y = 5;
+@@ -11,7 +11,7 @@ void bad() {
      int val = 0;
--    val = arr[x+y+5];
-+    val = arr[0]; // or any valid index within the bounds of the array
+     val = arr[x+y+5];
      printf("testing\n");
 -    return
 +    return val;

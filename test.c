@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void bad() {
+int bad() {
     int x = 56;
     int n = 10;
     int y = 5;
@@ -11,7 +11,7 @@ void bad() {
     int val = 0;
     val = arr[x+y+5];
     printf("testing\n");
-    return
+    return val;
 }
 
 int main() {
