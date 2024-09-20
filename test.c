@@ -9,9 +9,13 @@ void bad() {
     arr[0] = 3;
     printf("%d %d %d", arr[0], arr[1], arr[2]);
     int val = 0;
-    val = arr[x+y+5];
+    if (x + y + 5 < n) {
+        val = arr[x + y + 5];
+    } else {
+        printf("Index out of bounds\n");
+    }
     printf("testing\n");
-    return
+    return;
 }
 
 int main() {
