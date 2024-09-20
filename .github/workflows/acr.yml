@@ -20,7 +20,15 @@ jobs:
         with:
           name: ${{ inputs.artifact }}
       - shell: bash
-        run: |
-          value=`cat ${{ inputs.filename }}`
-          echo The result is $value
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACR_TOKEN: ${{ secrets.ACR_TOKEN }}
+          ACR_HOST: ${{ secrets.ACR_HOST }}
+          DESCRIPTION: "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’"
 
+
+        run: |
+          description=`cat ${{ inputs.filename }}`
+          echo The result is $description
+          echo The Host is $ACR_HOST
+          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": `cat ${{ inputs.filename }} | sed "s/\"/'/g")`, "type": "bug fix" , "branch": "${{ github.ref_name }}", "commit": "${{ github.ref_name }}" }' -X POST "$ACR_HOST/ci/github/run"

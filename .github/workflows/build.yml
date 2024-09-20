@@ -24,6 +24,7 @@ jobs:
     needs: build
     if: failure()
     uses: ./.github/workflows/acr.yml
+    secrets: inherit
     with:
         artifact: build_log
         filename: build.log
