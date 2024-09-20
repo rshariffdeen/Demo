@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ACR_TOKEN: "sk-63b153fcc687243d0fd855720bd22295-2c720bf1e1db7a0a04ac9867e95074cc"
-          ACR_HOST: "https://uat.autocoderover.dev"
+          ACR_HOST: ${{ secrets.ACR_HOST }}
           DESCRIPTION: "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’"
 
 
