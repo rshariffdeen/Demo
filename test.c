@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void bad() {
+int bad() {
     int x = 56;
     int n = 10;
     int y = 5;
