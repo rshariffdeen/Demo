@@ -15,6 +15,7 @@ int bad() {
         printf("Index out of bounds\n");
         val = -1; // or handle the error appropriately
     }
+    }
     printf("testing\n");
     return 0;
 }
