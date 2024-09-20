@@ -22,12 +22,12 @@ jobs:
       - shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACR_TOKEN: "sk-63b153fcc687243d0fd855720bd22295-2c720bf1e1db7a0a04ac9867e95074cc"
-          ACR_HOST: "https://uat.autocoderover.dev/ci/github/run"
+          ACR_TOKEN: ${{ secrets.ACR_TOKEN }}
+          ACR_HOST: ${{ secrets.ACR_HOST }}
           DESCRIPTION: "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’"
 
 
         run: |
           description=`cat ${{ inputs.filename }}`
           echo The result is $description
-          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": `cat ${{ inputs.filename }}`, "type": "bug fix" , "branch": "${{ github.ref_name }}", "commit": "${{ github.ref_name }}" }' -X POST $ACR_HOST
+          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": `cat ${{ inputs.filename }}`, "type": "bug fix" , "branch": "${{ github.ref_name }}", "commit": "${{ github.ref_name }}" }' -X POST $ACR_HOST/ci/github/run"
