@@ -28,8 +28,4 @@ jobs:
 
 
         run: |
-          description=`cat ${{ inputs.filename }}`
-          echo The result is $description
-          echo The Host is $ACR_HOST
-          cat build.log
           curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "github_token": "'"$GITHUB_TOKEN"'", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": "'" $(echo $(cat build.log)) "'", "type": "bug fix" , "branch": "${{ github.head_ref }}", "commit": "${{ github.head_ref }}" }' -X POST "$ACR_HOST/ci/github/run"
