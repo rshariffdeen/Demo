@@ -11,7 +11,7 @@ void bad() {
     int val = 0;
     val = arr[x+y+5];
     printf("testing\n");
-    return;
+    return
 }
 
 int main() {
