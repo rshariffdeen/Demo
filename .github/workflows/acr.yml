@@ -24,8 +24,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ACR_TOKEN: ${{ secrets.ACR_TOKEN }}
           ACR_HOST: ${{ secrets.ACR_HOST }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          PAT_ID: ${{ secrets.PAT_ID }}
           DESCRIPTION: "test.c: In function ‘bad’: test.c:15:1: error: expected expression before ‘}’"
 
 
         run: |
-          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "github_token": "'"$GITHUB_TOKEN"'", "repository_url": "https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}", "language": "c", "description": "'" $(echo $(cat build.log)) "'", "type": "bug fix" , "branch": "${{ github.head_ref }}", "commit": "${{ github.head_ref }}" }' -X POST "$ACR_HOST/ci/github/run"
+          curl --header "acr-auth-token: $ACR_TOKEN" --insecure -d '{"agent" : "GitHub Action", "github_token_id": "'"$PAT_ID"'", "project_id": "'"$PROJECT_ID"'", "language": "c", "description": "'" $(echo $(cat build.log)) "'", "type": "bug fix" , "branch": "${{ github.head_ref }}", "commit": "${{ github.head_ref }}" }' -X POST "$ACR_HOST/ci/github/run"
